@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { categoryService } from "@/services/category.service";
 const emptyForm = {
   title: "",
@@ -46,6 +47,7 @@ export default function BookForm({
 
 const [categories, setCategories] = useState([]);
 const [categoryLoading, setCategoryLoading] = useState(true);
+const [categoryError, setCategoryError] = useState("");
 
 useEffect(() => {
   let cancelled = false;
@@ -58,7 +60,11 @@ useEffect(() => {
         setCategories(result.data || []);
       }
     } catch (error) {
-      console.error("Failed to load categories:", error.message);
+      if (!cancelled) {
+        setCategoryError(
+          error.message || "Failed to load categories."
+        );
+      }
     } finally {
       if (!cancelled) {
         setCategoryLoading(false);
@@ -175,10 +181,15 @@ useEffect(() => {
     ))}
   </select>
 
-  {categories.length === 0 && !categoryLoading && (
-    <p className="mt-2 text-sm text-red-500">
-      No categories found. Please create a category first.
-    </p>
+  {categoryError ? (
+    <p className="mt-2 text-sm text-red-500">{categoryError}</p>
+  ) : (
+    categories.length === 0 &&
+    !categoryLoading && (
+      <p className="mt-2 text-sm text-red-500">
+        No categories found. Please create a category first.
+      </p>
+    )
   )}
 </div>
 
@@ -276,9 +287,12 @@ useEffect(() => {
           <p className="mb-2 text-sm font-medium text-gray-700">
             Cover Preview
           </p>
-          <img
+          <Image
             src={formData.coverImage}
             alt="Book cover preview"
+            width={144}
+            height={192}
+            unoptimized
             className="h-48 w-36 rounded-lg border object-contain"
           />
         </div>

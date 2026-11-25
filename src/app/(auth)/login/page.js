@@ -42,6 +42,7 @@ export default function LoginPage() {
 
       if (data) {
         router.replace("/dashboard");
+        router.refresh();
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");

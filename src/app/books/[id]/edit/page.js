@@ -20,12 +20,13 @@ function EditBookPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const isManager = ["admin", "librarian"].includes(
-    session?.user?.role
-  );
+  const role = session?.user?.role?.trim().toLowerCase();
+  const isManager = role === "admin" || role === "librarian";
 
   useEffect(() => {
-    if (sessionPending || !session || !isManager || !id) {
+    if (sessionPending) return;
+
+    if (!session || !isManager || !id) {
       return;
     }
 
@@ -74,7 +75,7 @@ function EditBookPage() {
     }
   };
 
-  if (sessionPending || loading) {
+  if (sessionPending || (loading && isManager)) {
     return <p className="p-4 sm:p-8">Loading book information...</p>;
   }
 

@@ -15,7 +15,6 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "member",
   });
 
   const [error, setError] = useState("");
@@ -40,10 +39,6 @@ export default function RegisterPage() {
       return setError("Password must be at least 8 characters.");
     }
 
-    if (!["member", "librarian"].includes(formData.role)) {
-      return setError("Please select a valid account category.");
-    }
-
     setLoading(true);
 
     try {
@@ -51,7 +46,6 @@ export default function RegisterPage() {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-        role: formData.role,
       });
 
       if (error) {
@@ -106,26 +100,10 @@ export default function RegisterPage() {
             className="w-full rounded-lg border p-3 text-gray-900"
           />
 
-          <div>
-            <label
-              htmlFor="role"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
-              Account Category
-            </label>
-
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border p-3 text-gray-900"
-            >
-              <option value="member">Member</option>
-              <option value="librarian">Librarian</option>
-            </select>
-          </div>
+          <p className="rounded-lg bg-blue-50 p-3 text-sm text-blue-700">
+            New accounts are created as library members. A library
+            administrator can upgrade your role if needed.
+          </p>
 
           <input
             type="password"

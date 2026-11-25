@@ -68,8 +68,20 @@ export default function MyBorrowRequestsPage() {
         ]);
 
         if (!cancelled) {
+          const now = Date.now();
+
           setRequests(requestResult.data || []);
-          setRecords(recordResult.data || []);
+          setRecords(
+            (recordResult.data || []).map((record) => ({
+              ...record,
+              status:
+                record.status === "issued" &&
+                record.dueDate &&
+                new Date(record.dueDate).getTime() < now
+                  ? "overdue"
+                  : record.status,
+            }))
+          );
         }
       } catch (err) {
         if (!cancelled) {

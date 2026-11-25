@@ -17,6 +17,20 @@ function formatDate(date) {
     : parsed.toLocaleDateString();
 }
 
+// The backend only stores "issued" / "returned", so overdue is derived here
+// at fetch time instead of calling Date.now() during render.
+function withOverdueFlags(records = []) {
+  const now = Date.now();
+
+  return records.map((record) => ({
+    ...record,
+    isOverdue:
+      record.status === "issued" &&
+      Boolean(record.dueDate) &&
+      new Date(record.dueDate).getTime() < now,
+  }));
+}
+
 export default function BorrowRecordsPage() {
   const { data: session, isPending } = useSession();
 
@@ -37,7 +51,7 @@ export default function BorrowRecordsPage() {
 
     try {
       const result = await borrowService.getAllRecords(status);
-      setRecords(result.data || []);
+      setRecords(withOverdueFlags(result.data));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -58,7 +72,7 @@ export default function BorrowRecordsPage() {
         const result = await borrowService.getAllRecords(status);
 
         if (!cancelled) {
-          setRecords(result.data || []);
+          setRecords(withOverdueFlags(result.data));
           setError("");
         }
       } catch (err) {
@@ -238,12 +252,16 @@ export default function BorrowRecordsPage() {
                     <td className="p-4">
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                          record.status === "issued"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-green-100 text-green-700"
+                          record.isOverdue
+                            ? "bg-red-100 text-red-700"
+                            : record.status === "issued"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-green-100 text-green-700"
                         }`}
                       >
-                        {(record.status || "unknown").toUpperCase()}
+                        {record.isOverdue
+                          ? "OVERDUE"
+                          : (record.status || "unknown").toUpperCase()}
                       </span>
                     </td>
 

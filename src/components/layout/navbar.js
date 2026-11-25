@@ -17,9 +17,9 @@ export default function Navbar() {
   const [loggingOut, setLoggingOut] = useState(false);
   const [error, setError] = useState("");
 
-  const role = session?.user?.role;
+  const role = session?.user?.role?.trim().toLowerCase() || "member";
 
-  const isManager = ["admin", "librarian"].includes(role);
+  const isManager = role === "admin" || role === "librarian";
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -222,7 +222,7 @@ export default function Navbar() {
                   Dashboard
                 </Link>
 
-                <p className="text-sm text-gray-500 dark:text-slate-400">
+                <p className="text-sm capitalize text-gray-500 dark:text-slate-400">
                   {session.user.name} ({role})
                 </p>
 

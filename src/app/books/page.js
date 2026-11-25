@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { bookService } from "@/services/book.service";
 import { useSession } from "@/lib/auth-client";
+import Image from "next/image";
 import Link from "next/link";
 import BorrowBookButton from "@/components/books/borrow-book-button";
 
@@ -33,6 +34,7 @@ const [deletingId, setDeletingId] = useState(null);
 
         setBooks(result.data || []);
         setPagination(result.pagination || null);
+        setError("");
       } catch (err) {
         if (cancelled) return;
 
@@ -165,10 +167,12 @@ const handleDelete = async (id) => {
               >
                 <div className="flex h-40 items-center justify-center bg-gray-100">
                   {book.coverImage ? (
-                    <img
+                    <Image
                       src={book.coverImage}
                       alt={book.title}
-                      loading="lazy"
+                      width={300}
+                      height={160}
+                      unoptimized
                       className="h-full w-full object-contain"
                     />
                   ) : (

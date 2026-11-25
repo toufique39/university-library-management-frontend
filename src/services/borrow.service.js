@@ -1,9 +1,8 @@
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { apiUrl } from "@/lib/api";
 
 async function borrowRequest(endpoint, options = {}) {
   const response = await fetch(
-    `${API_URL}/api/borrow${endpoint}`,
+    apiUrl(`/api/borrow${endpoint}`),
     {
       ...options,
       credentials: "include",

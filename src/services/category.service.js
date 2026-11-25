@@ -1,9 +1,8 @@
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { apiUrl } from "@/lib/api";
 
 async function categoryRequest(endpoint = "", options = {}) {
   const response = await fetch(
-    `${API_URL}/api/categories${endpoint}`,
+    apiUrl(`/api/categories${endpoint}`),
     {
       ...options,
       credentials: "include",

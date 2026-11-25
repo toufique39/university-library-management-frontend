@@ -23,7 +23,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-  <body>
+  <body
+    className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+  >
     <ThemeProvider
       attribute="class"
       defaultTheme="light"
@@ -32,9 +34,8 @@ export default function RootLayout({ children }) {
     >
       <Navbar></Navbar>
       {children}
-
+      <Footer></Footer>
     </ThemeProvider>
-    <Footer></Footer>
   </body>
 </html>
   );

@@ -1,8 +1,7 @@
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { apiUrl } from "@/lib/api";
 
 async function apiRequest(endpoint, options = {}) {
-  const response = await fetch(`${API_URL}/api/books${endpoint}`, {
+  const response = await fetch(apiUrl(`/api/books${endpoint}`), {
     ...options,
     credentials: "include",
     headers: {
