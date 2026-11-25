@@ -1,5 +1,5 @@
 
-const API_URL = process.env._PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function dashboardRequest(endpoint) {
   const response = await fetch(

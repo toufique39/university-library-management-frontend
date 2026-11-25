@@ -1,5 +1,5 @@
 
-const API_URL = process.env._PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function apiRequest(endpoint, options = {}) {
   const response = await fetch(`${API_URL}/api/books${endpoint}`, {
