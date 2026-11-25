@@ -1,4 +1,3 @@
-import { apiUrl } from "@/lib/api";
 
 async function dashboardRequest(endpoint) {
   const response = await fetch(

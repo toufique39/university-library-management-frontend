@@ -1,4 +1,4 @@
-import { apiUrl } from "@/lib/api";
+
 
 async function apiRequest(endpoint, options = {}) {
   const response = await fetch(apiUrl(`/api/books${endpoint}`), {

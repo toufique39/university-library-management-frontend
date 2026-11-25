@@ -1,4 +1,3 @@
-import { apiUrl } from "@/lib/api";
 
 async function categoryRequest(endpoint = "", options = {}) {
   const response = await fetch(
