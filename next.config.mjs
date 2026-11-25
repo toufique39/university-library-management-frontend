@@ -7,6 +7,7 @@ const nextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   reactCompiler: true,
+
   turbopack: {
     rules: {
       "*.css": {
@@ -14,6 +15,17 @@ const nextConfig = {
         as: "*.css",
       },
     },
+  },
+
+  // Proxy API requests to the Express Backend
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination:
+          "https://university-library-management-backe.vercel.app/api/:path*",
+      },
+    ];
   },
 };
 
